@@ -28,6 +28,7 @@ type HandshakeResponse struct {
 }
 
 func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeResponse {
+    go log.Println("Hands have been shook")
     h.Module = &module.Module{
         Port:     config.Port,
         Manifest: config.Manifest,
