@@ -1,4 +1,4 @@
-module encedeus_module_daemon
+module github.com/Encedeus/module-daemon-go
 
 go 1.21.0
 
