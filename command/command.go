@@ -1,6 +1,6 @@
 package command
 
-import "encedeus_module_daemon/module"
+import "github.com/Encedeus/module-daemon-go/module"
 
 type Result any
 type Parameters []string
