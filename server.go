@@ -66,9 +66,11 @@ func InitModule(run RunFunction) error {
         Addr:         fmt.Sprintf(":%v", rpcPort),
     }
 
-    if err = server.Serve(listener); err != nil {
-        log.Fatalf("Failed starting RPC server: %e", err)
-    }
+    go func() {
+        if err = server.Serve(listener); err != nil {
+            log.Fatalf("Failed starting RPC server: %e", err)
+        }
+    }()
 
     return nil
 }
