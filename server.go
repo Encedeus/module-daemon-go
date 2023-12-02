@@ -1,9 +1,9 @@
 package main
 
 import (
-    "encedeus_module_daemon/command"
-    "encedeus_module_daemon/module"
     "fmt"
+    "github.com/Encedeus/module-daemon-go/command"
+    "github.com/Encedeus/module-daemon-go/module"
     "github.com/filecoin-project/go-jsonrpc"
     "github.com/stealthrocket/net/wasip1"
     "log"
