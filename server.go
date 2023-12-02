@@ -42,12 +42,12 @@ func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeRes
 }
 
 func InitModule(run RunFunction) error {
-    go log.Println("Hands have been shook 1")
+    log.Println("Hands have been shook 1")
     backendPort, _ := strconv.Atoi(os.Getenv("MODULE_BACKEND_PORT"))
     frontendPort, _ := strconv.Atoi(os.Getenv("MODULE_FRONTEND_PORT"))
     rpcPort, _ := strconv.Atoi(os.Getenv("MODULE_RPC_PORT"))
 
-    go log.Println("Hands have been shook 2")
+    log.Println("Hands have been shook 2")
     rpcServer := jsonrpc.NewServer()
 
     handshakeHandler := new(HandshakeHandler)
@@ -55,14 +55,14 @@ func InitModule(run RunFunction) error {
     handshakeHandler.BackendPort = module.Port(backendPort)
     handshakeHandler.FrontendPort = module.Port(frontendPort)
 
-    go log.Println("Hands have been shook 3")
+    log.Println("Hands have been shook 3")
     rpcServer.Register("HandshakeHandler", handshakeHandler)
 
     listener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", rpcPort))
     if err != nil {
         log.Fatalf("Failed creating TCP listener: %e", err)
     }
-    go log.Println("Hands have been shook 4")
+    log.Println("Hands have been shook 4")
 
     server := http.Server{
         Handler:      rpcServer,
@@ -76,7 +76,7 @@ func InitModule(run RunFunction) error {
             log.Fatalf("Failed starting RPC server: %e", err)
         }
     }()
-    go log.Println("Hands have been shook 5")
+    log.Println("Hands have been shook 5")
 
     return nil
 }
