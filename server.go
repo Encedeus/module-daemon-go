@@ -40,7 +40,7 @@ func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeRes
     }
 }
 
-func InitModule(run RunFunction) error {
+func InitModule(run RunFunction) {
     rpcPort, _ := strconv.Atoi(os.Getenv("MODULE_RPC_PORT"))
     mainPort, _ := strconv.Atoi(os.Getenv("MODULE_MAIN_PORT"))
 
@@ -56,7 +56,6 @@ func InitModule(run RunFunction) error {
     listener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", rpcPort))
     if err != nil {
         log.Fatalf("Failed creating TCP listener: %e", err)
-        return err
     }
 
     server := http.Server{
@@ -68,7 +67,6 @@ func InitModule(run RunFunction) error {
 
     if err = server.Serve(listener); err != nil {
         log.Fatalf("Failed starting RPC server: %e", err)
-        return err
     }
 
     return nil
