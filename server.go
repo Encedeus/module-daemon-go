@@ -2,7 +2,6 @@ package daemon
 
 import (
     "fmt"
-    "github.com/Encedeus/module-daemon-go/command"
     "github.com/Encedeus/module-daemon-go/module"
     "github.com/filecoin-project/go-jsonrpc"
     "github.com/stealthrocket/net/wasip1"
@@ -27,7 +26,7 @@ func InitModule(run module.RunFunction) {
     handshakeHandler.Module = mod
     handshakeHandler.Run = run
 
-    hostInvokeHandler := new(command.HostInvokeHandler)
+    hostInvokeHandler := new(module.HostInvokeHandler)
     hostInvokeHandler.Module = mod
 
     rpcServer.Register("HandshakeHandler", handshakeHandler)

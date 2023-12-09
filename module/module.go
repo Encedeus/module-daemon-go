@@ -3,14 +3,45 @@ package module
 import (
     "context"
     "fmt"
-    "github.com/Encedeus/module-daemon-go/command"
     "github.com/filecoin-project/go-jsonrpc"
 )
+
+type Result any
+type Parameters []string
+type Arguments map[string]any
+type Executor func(m *Module, args Arguments) (Result, error)
+
+type Command struct {
+    Name   string
+    Params Parameters
+    Exec   Executor
+}
+
+type InvokeFunc func(command string, args Arguments) (Result, error)
+
+type HostInvokeHandler struct {
+    Module *Module
+}
+
+func (h *HostInvokeHandler) HostInvoke(command string, args Arguments) (Result, error) {
+    for _, cmd := range h.Module.Commands {
+        if cmd.Name == command {
+            result, err := cmd.Exec(h.Module, args)
+            if err != nil {
+                return nil, err
+            }
+
+            return result, nil
+        }
+    }
+
+    return nil, nil
+}
 
 type RunFunction func(m *Module)
 
 type HandshakeHandler struct {
-    RegisteredCommands []*command.Command
+    RegisteredCommands []*Command
     Module             *Module
     Run                RunFunction
     RPCPort            Port
@@ -44,17 +75,17 @@ type Module struct {
     Port             Port
     Manifest         Manifest
     HostPort         Port
-    Commands         []*command.Command
+    Commands         []*Command
     HandshakeHandler *HandshakeHandler
 }
 
-func (m *Module) RegisterCommand(cmd command.Command) {
+func (m *Module) RegisterCommand(cmd Command) {
     m.Commands = append(m.Commands, &cmd)
 }
 
-func (m *Module) Invoke(cmd string, args command.Arguments) (command.Result, error) {
+func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
     var client struct {
-        ModuleInvoke command.InvokeFunc
+        ModuleInvoke InvokeFunc
     }
 
     closer, err := jsonrpc.NewClient(context.Background(), fmt.Sprintf("http://localhost:%v", m.HostPort), "ModuleInvokeHandler", &client, nil)
