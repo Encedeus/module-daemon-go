@@ -24,7 +24,7 @@ type HandshakeHandler struct {
 }
 
 type HandshakeResponse struct {
-    RegisteredCommands []*command.Command
+    // RegisteredCommands []*command.Command
 }
 
 func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeResponse {
@@ -35,9 +35,7 @@ func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeRes
 
     defer h.Run(h.Module)
 
-    return HandshakeResponse{
-        RegisteredCommands: h.RegisteredCommands,
-    }
+    return HandshakeResponse{}
 }
 
 func InitModule(run RunFunction) {
@@ -52,6 +50,7 @@ func InitModule(run RunFunction) {
     handshakeHandler.RPCPort = module.Port(rpcPort)
     handshakeHandler.MainPort = module.Port(mainPort)
     handshakeHandler.Module = mod
+    handshakeHandler.Run = run
 
     hostInvokeHandler := new(command.HostInvokeHandler)
     hostInvokeHandler.Module = mod
