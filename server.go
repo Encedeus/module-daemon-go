@@ -13,32 +13,7 @@ import (
     "time"
 )
 
-type RunFunction func(m *module.Module)
-
-type HandshakeHandler struct {
-    RegisteredCommands []*command.Command
-    Module             *module.Module
-    Run                RunFunction
-    RPCPort            module.Port
-    MainPort           module.Port
-}
-
-type HandshakeResponse struct {
-    // RegisteredCommands []*command.Command
-}
-
-func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeResponse {
-    h.Module.Port = config.Port
-    h.Module.Manifest = config.Manifest
-    h.Module.HostPort = config.HostPort
-    h.Module.HandshakeHandler = h
-
-    defer h.Run(h.Module)
-
-    return HandshakeResponse{}
-}
-
-func InitModule(run RunFunction) {
+func InitModule(run module.RunFunction) {
     rpcPort, _ := strconv.Atoi(os.Getenv("MODULE_RPC_PORT"))
     mainPort, _ := strconv.Atoi(os.Getenv("MODULE_MAIN_PORT"))
 
@@ -46,7 +21,7 @@ func InitModule(run RunFunction) {
 
     mod := new(module.Module)
 
-    handshakeHandler := new(HandshakeHandler)
+    handshakeHandler := new(module.HandshakeHandler)
     handshakeHandler.RPCPort = module.Port(rpcPort)
     handshakeHandler.MainPort = module.Port(mainPort)
     handshakeHandler.Module = mod

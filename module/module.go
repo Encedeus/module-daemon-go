@@ -3,10 +3,34 @@ package module
 import (
     "context"
     "fmt"
-    daemon "github.com/Encedeus/module-daemon-go"
     "github.com/Encedeus/module-daemon-go/command"
     "github.com/filecoin-project/go-jsonrpc"
 )
+
+type RunFunction func(m *Module)
+
+type HandshakeHandler struct {
+    RegisteredCommands []*command.Command
+    Module             *Module
+    Run                RunFunction
+    RPCPort            Port
+    MainPort           Port
+}
+
+type HandshakeResponse struct {
+    // RegisteredCommands []*command.Command
+}
+
+func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
+    h.Module.Port = config.Port
+    h.Module.Manifest = config.Manifest
+    h.Module.HostPort = config.HostPort
+    h.Module.HandshakeHandler = h
+
+    defer h.Run(h.Module)
+
+    return HandshakeResponse{}
+}
 
 type Manifest struct {
     Name             string   `hcl:"name"`
@@ -21,7 +45,7 @@ type Module struct {
     Manifest         Manifest
     HostPort         Port
     Commands         []*command.Command
-    HandshakeHandler *daemon.HandshakeHandler
+    HandshakeHandler *HandshakeHandler
 }
 
 func (m *Module) RegisterCommand(cmd command.Command) {
