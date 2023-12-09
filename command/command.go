@@ -1,6 +1,8 @@
 package command
 
-import "github.com/Encedeus/module-daemon-go/module"
+import (
+    "github.com/Encedeus/module-daemon-go/module"
+)
 
 type Result any
 type Parameters []string
@@ -13,8 +15,24 @@ type Command struct {
     Exec   Executor
 }
 
-type InvokeHandler struct{}
+type InvokeFunc func(command string, args Arguments) (Result, error)
 
-func Invoke(command string) (Result, error) {
-    return 0, nil
+type HostInvokeHandler struct {
+    Commands []*Command
+    Module   *module.Module
+}
+
+func (h *HostInvokeHandler) HostInvoke(command string, args Arguments) (Result, error) {
+    for _, cmd := range h.Commands {
+        if cmd.Name == command {
+            result, err := cmd.Exec(h.Module, args)
+            if err != nil {
+                return nil, err
+            }
+
+            return result, nil
+        }
+    }
+
+    return nil, nil
 }

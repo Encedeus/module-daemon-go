@@ -31,6 +31,7 @@ func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeRes
     h.Module = &module.Module{
         Port:     config.Port,
         Manifest: config.Manifest,
+        HostPort: config.HostPort,
     }
 
     defer h.Run(h.Module)
@@ -68,6 +69,4 @@ func InitModule(run RunFunction) {
     if err = server.Serve(listener); err != nil {
         log.Fatalf("Failed starting RPC server: %e", err)
     }
-
-    return nil
 }
