@@ -28,11 +28,10 @@ type HandshakeResponse struct {
 }
 
 func (h *HandshakeHandler) OnHandshake(config module.Configuration) HandshakeResponse {
-    h.Module = &module.Module{
-        Port:     config.Port,
-        Manifest: config.Manifest,
-        HostPort: config.HostPort,
-    }
+    h.Module.Port = config.Port
+    h.Module.Manifest = config.Manifest
+    h.Module.HostPort = config.HostPort
+    h.Module.HandshakeHandler = h
 
     defer h.Run(h.Module)
 
@@ -47,10 +46,15 @@ func InitModule(run RunFunction) {
 
     rpcServer := jsonrpc.NewServer()
 
+    mod := new(module.Module)
+
     handshakeHandler := new(HandshakeHandler)
-    handshakeHandler.Run = run
     handshakeHandler.RPCPort = module.Port(rpcPort)
     handshakeHandler.MainPort = module.Port(mainPort)
+    handshakeHandler.Module = mod
+
+    hostInvokeHandler := new(command.HostInvokeHandler)
+    hostInvokeHandler.Module = mod
 
     rpcServer.Register("HandshakeHandler", handshakeHandler)
 

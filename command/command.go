@@ -18,12 +18,11 @@ type Command struct {
 type InvokeFunc func(command string, args Arguments) (Result, error)
 
 type HostInvokeHandler struct {
-    Commands []*Command
-    Module   *module.Module
+    Module *module.Module
 }
 
 func (h *HostInvokeHandler) HostInvoke(command string, args Arguments) (Result, error) {
-    for _, cmd := range h.Commands {
+    for _, cmd := range h.Module.Commands {
         if cmd.Name == command {
             result, err := cmd.Exec(h.Module, args)
             if err != nil {

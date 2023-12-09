@@ -3,6 +3,7 @@ package module
 import (
     "context"
     "fmt"
+    daemon "github.com/Encedeus/module-daemon-go"
     "github.com/Encedeus/module-daemon-go/command"
     "github.com/filecoin-project/go-jsonrpc"
 )
@@ -16,9 +17,15 @@ type Manifest struct {
 }
 
 type Module struct {
-    Port     Port
-    Manifest Manifest
-    HostPort Port
+    Port             Port
+    Manifest         Manifest
+    HostPort         Port
+    Commands         []*command.Command
+    HandshakeHandler *daemon.HandshakeHandler
+}
+
+func (m *Module) RegisterCommand(cmd command.Command) {
+    m.Commands = append(m.Commands, &cmd)
 }
 
 func (m *Module) Invoke(cmd string, args command.Arguments) (command.Result, error) {
