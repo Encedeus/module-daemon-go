@@ -59,6 +59,7 @@ func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
     h.Module.HandshakeHandler = h
 
     defer h.Run(h.Module)
+    fmt.Println("Handshake done from module side")
 
     return HandshakeResponse{}
 }
