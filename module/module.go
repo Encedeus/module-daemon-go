@@ -88,6 +88,7 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
     var client struct {
         ModuleInvoke InvokeFunc
     }
+    fmt.Printf("Host port: %v\n", m.HostPort)
 
     closer, err := jsonrpc.NewClient(context.Background(), fmt.Sprintf("http://localhost:%v", m.HostPort), "ModuleInvokeHandler", &client, nil)
     if err != nil {
