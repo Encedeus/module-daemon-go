@@ -4,6 +4,8 @@ import (
     "context"
     "fmt"
     "github.com/filecoin-project/go-jsonrpc"
+    "log"
+    "net"
 )
 
 type Result any
@@ -90,6 +92,12 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
     }
     fmt.Printf("Host port: %v\n", m.HostPort)
     // time.Sleep(2 * time.Second)
+
+    conn, err := net.Dial("tcp", fmt.Sprintf("http://localhost:%v", m.HostPort))
+    if err != nil {
+        log.Fatalf("%e", err)
+    }
+    defer conn.Close()
 
     closer, err := jsonrpc.NewClient(context.Background(), fmt.Sprintf("http://localhost:%v", m.HostPort), "ModuleInvokeHandler", &client, nil)
     if err != nil {
