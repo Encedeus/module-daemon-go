@@ -93,7 +93,7 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
     fmt.Printf("Host port: %v\n", m.HostPort)
     // time.Sleep(2 * time.Second)
 
-    conn, err := net.Dial("tcp", fmt.Sprintf("http://localhost:%v", m.HostPort))
+    conn, err := net.Dial("tcp", fmt.Sprintf("localhost:%v", m.HostPort))
     if err != nil {
         log.Fatalf("%e", err)
     }
