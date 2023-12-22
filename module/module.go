@@ -94,6 +94,7 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
     // time.Sleep(2 * time.Second)
 
     conn, err := net.Dial("tcp", fmt.Sprintf("localhost:%v", m.HostPort))
+    fmt.Printf("Invoke dial error: %e", err)
     if err != nil {
         log.Fatalf("%e", err)
     }
