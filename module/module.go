@@ -106,6 +106,7 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
     defer closer()
 
     result, err := client.ModuleInvoke(cmd, args)
+    fmt.Printf("Module invoke error: %e\n", err)
     if err != nil {
         return nil, err
     }
