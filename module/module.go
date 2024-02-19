@@ -4,6 +4,9 @@ import (
 	"context"
 	"fmt"
 	"github.com/filecoin-project/go-jsonrpc"
+	"github.com/stealthrocket/net/wasip1"
+	"net/http"
+	"time"
 )
 
 type Result any
@@ -99,7 +102,16 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
 	      }
 	      defer conn.Close()*/
 
-	closer, err := jsonrpc.NewClient(context.Background(), fmt.Sprintf("http://127.0.0.1:%v", m.HostPort), "ModuleInvokeHandler", &client, nil)
+	httpCl := http.Client{
+		Timeout: 5 * time.Second,
+		Transport: &http.Transport{
+			DialContext: wasip1.DialContext,
+		},
+	}
+
+	closer, err := jsonrpc.NewMergeClient(context.Background(),
+		fmt.Sprintf("http://127.0.0.1:%v", m.HostPort), "ModuleInvokeHandler",
+		[]any{&client}, nil, jsonrpc.WithHTTPClient(&httpCl))
 	fmt.Printf("Client open error: %e\n", err)
 	if err != nil {
 		return nil, err
