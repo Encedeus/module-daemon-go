@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/filecoin-project/go-jsonrpc"
+	"log"
 )
 
 type Result any
@@ -53,6 +54,7 @@ type HandshakeResponse struct {
 }
 
 func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
+	log.Println("HANDSHAKE")
 	h.Module.Port = config.Port
 	h.Module.Manifest = config.Manifest
 	h.Module.HostPort = config.HostPort
