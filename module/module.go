@@ -58,6 +58,7 @@ func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
 	h.Module.HostPort = config.HostPort
 	h.Module.HandshakeHandler = h
 
+	fmt.Printf("Run: %+v\n", h.Run)
 	go func() {
 		fmt.Println("running run")
 		h.Run(h.Module)
