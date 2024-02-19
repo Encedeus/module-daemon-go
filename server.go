@@ -31,6 +31,7 @@ func InitModule(run module.RunFunction) {
 	hostInvokeHandler.Module = mod
 
 	rpcServer.Register("HandshakeHandler", handshakeHandler)
+	rpcServer.Register("HostInvokeHandler", hostInvokeHandler)
 
 	listener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", rpcPort))
 	if err != nil {
