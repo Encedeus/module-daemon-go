@@ -19,11 +19,11 @@ func InitModule(run module.RunFunction) {
 
 	mod := new(module.Module)
 
-	go InitEchoServer(mod)
+	SetupEchoServer(mod)
 	InitRPCServer(module.Port(rpcPort), module.Port(mainPort), mod, run)
 }
 
-func InitEchoServer(mod *module.Module) {
+func SetupEchoServer(mod *module.Module) {
 	e := echo.New()
 
 	listener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", 8086))
@@ -33,6 +33,11 @@ func InitEchoServer(mod *module.Module) {
 	e.Listener = listener
 
 	mod.Echo = e
+
+	err = module.StartEchoServer(mod)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func InitRPCServer(rpcPort, mainPort module.Port, mod *module.Module, run module.RunFunction) {
