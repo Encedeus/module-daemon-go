@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/filecoin-project/go-jsonrpc"
+	"github.com/labstack/echo/v4"
 	"github.com/stealthrocket/net/wasip1"
 	"net/http"
 	"time"
@@ -82,6 +83,7 @@ type Module struct {
 	HostPort         Port
 	Commands         []*Command
 	HandshakeHandler *HandshakeHandler
+	Echo             *echo.Echo
 }
 
 func (m *Module) RegisterCommand(cmd Command) {
