@@ -26,7 +26,7 @@ func InitModule(run module.RunFunction) {
 func SetupEchoServer(mod *module.Module) {
 	e := echo.New()
 
-	listener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", 8086))
+	listener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", mod.Port))
 	if err != nil {
 		log.Fatal(err)
 	}
