@@ -19,7 +19,7 @@ func InitModule(run module.RunFunction) {
 
 	mod := new(module.Module)
 
-	SetupEchoServer(mod)
+	go SetupEchoServer(mod)
 	InitRPCServer(module.Port(rpcPort), module.Port(mainPort), mod, run)
 }
 
