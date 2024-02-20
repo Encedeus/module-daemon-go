@@ -15,7 +15,6 @@ import (
 func InitModule(run module.RunFunction) {
 	rpcPort, _ := strconv.Atoi(os.Getenv("MODULE_RPC_PORT"))
 	mainPort, _ := strconv.Atoi(os.Getenv("MODULE_MAIN_PORT"))
-	fmt.Printf("Perceived RPC port: %v\n", rpcPort)
 
 	rpcServer := jsonrpc.NewServer()
 
@@ -45,9 +44,7 @@ func InitModule(run module.RunFunction) {
 		Addr:         fmt.Sprintf(":%v", rpcPort),
 	}
 
-	//go func() {
 	if err = server.Serve(listener); err != nil {
 		log.Fatalf("Failed starting RPC server: %v", err)
 	}
-	//}()
 }

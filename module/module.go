@@ -92,15 +92,6 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
 	var client struct {
 		ModuleInvoke InvokeFunc
 	}
-	//fmt.Printf("Host port: %v\n", m.HostPort)
-	// time.Sleep(2 * time.Second)
-
-	/*    conn, err := net.Dial("tcp", fmt.Sprintf("localhost:%v", m.HostPort))
-	      fmt.Printf("Invoke dial error: %e\n", err)
-	      if err != nil {
-	          log.Fatalf("%e", err)
-	      }
-	      defer conn.Close()*/
 
 	httpCl := http.Client{
 		Timeout: 5 * time.Second,
@@ -112,14 +103,12 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
 	closer, err := jsonrpc.NewMergeClient(context.Background(),
 		fmt.Sprintf("http://127.0.0.1:%v", m.HostPort), "ModuleInvokeHandler",
 		[]any{&client}, nil, jsonrpc.WithHTTPClient(&httpCl))
-	fmt.Printf("Client open error: %e\n", err)
 	if err != nil {
 		return nil, err
 	}
 	defer closer()
 
 	result, err := client.ModuleInvoke(cmd, args)
-	fmt.Printf("Module invoke error: %e\n", err)
 	if err != nil {
 		return nil, err
 	}
