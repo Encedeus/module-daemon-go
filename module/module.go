@@ -67,12 +67,12 @@ func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
 		h.Run(h.Module)
 	}()
 
-	fmt.Printf("Craters: %+v\n", h.Module.Craters[0])
-	resp := HandshakeResponse{
-		RegisteredCraters: h.Module.Craters,
-	}
+	/*	fmt.Printf("Craters: %+v\n", h.Module.Craters[0])
+		resp := HandshakeResponse{
+			RegisteredCraters: h.Module.Craters,
+		}*/
 
-	return resp
+	return HandshakeResponse{}
 }
 
 type Manifest struct {
