@@ -54,6 +54,7 @@ type HandshakeHandler struct {
 
 type HandshakeResponse struct {
 	// RegisteredCommands []*command.Command
+	RegisteredCraters []*Crater
 }
 
 func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
@@ -66,7 +67,11 @@ func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
 		h.Run(h.Module)
 	}()
 
-	return HandshakeResponse{}
+	resp := HandshakeResponse{
+		RegisteredCraters: h.Module.Craters,
+	}
+
+	return resp
 }
 
 type Manifest struct {
@@ -84,6 +89,7 @@ type Module struct {
 	Commands         []*Command
 	HandshakeHandler *HandshakeHandler
 	Echo             *echo.Echo
+	Craters          []*Crater
 }
 
 func (m *Module) RegisterCommand(cmd Command) {

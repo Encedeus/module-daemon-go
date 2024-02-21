@@ -6,8 +6,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func StartEchoServer(m *Module) error {
+type Server struct {
+}
+
+func StartCraterEchoServer(m *Module) error {
 	m.Echo.GET("/ws", hello)
+
+	/*	serversEndpoint := m.Echo.Group("servers")
+		{
+			serversEndpoint.POST("", func(c echo.Context) error {
+				return nil
+			})
+			serversEndpoint.DELETE("/:id", func(c echo.Context) error {
+
+			})
+			serversEndpoint.GET("/:")
+		}*/
 
 	err := m.Echo.Start(fmt.Sprintf(":%v", m.Port))
 	if err != nil {

@@ -34,7 +34,7 @@ func SetupEchoServer(mod *module.Module) {
 
 	mod.Echo = e
 
-	err = module.StartEchoServer(mod)
+	err = module.StartCraterEchoServer(mod)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,8 +52,12 @@ func InitRPCServer(rpcPort, mainPort module.Port, mod *module.Module, run module
 	hostInvokeHandler := new(module.HostInvokeHandler)
 	hostInvokeHandler.Module = mod
 
+	cratersHandler := new(module.CraterHandler)
+	cratersHandler.RegisteredCraters = mod.Craters
+
 	rpcServer.Register("HandshakeHandler", handshakeHandler)
 	rpcServer.Register("HostInvokeHandler", hostInvokeHandler)
+	rpcServer.Register("CratersHandler", cratersHandler)
 
 	rpcListener, err := wasip1.Listen("tcp", fmt.Sprintf("127.0.0.1:%v", rpcPort))
 	if err != nil {
