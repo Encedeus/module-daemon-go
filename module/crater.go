@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	protoapi "github.com/Encedeus/module-daemon-go/proto/go"
-	"slices"
 )
 
 var (
@@ -64,10 +63,18 @@ func HasVariant(variant string, craters []*Crater) (bool, *Variant) {
 }
 
 func HasCrater(id string, craters []*Crater) bool {
-	return slices.ContainsFunc(craters, func(crater *Crater) bool {
+	for _, c := range craters {
+		fmt.Printf("%v %v", c.Id, id)
+		if c.Id == id {
+			return true
+		}
+	}
+	/*	return slices.ContainsFunc(craters, func(crater *Crater) bool {
 		fmt.Printf("Crater: %v %v\n", crater.Id, id)
 		return crater.Id == id
-	})
+	})*/
+
+	return false
 }
 
 func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest) (*protoapi.ServersCreateResponse, error) {
