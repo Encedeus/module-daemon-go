@@ -53,7 +53,7 @@ func InitRPCServer(rpcPort, mainPort module.Port, mod *module.Module, run module
 	hostInvokeHandler.Module = mod
 
 	cratersHandler := new(module.CraterHandler)
-	cratersHandler.RegisteredCraters = mod.Craters
+	cratersHandler.RegisteredCraters = &mod.Craters
 
 	rpcServer.Register("HandshakeHandler", handshakeHandler)
 	rpcServer.Register("HostInvokeHandler", hostInvokeHandler)
