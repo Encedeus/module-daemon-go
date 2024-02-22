@@ -12,6 +12,7 @@ var (
 )
 
 type Crater struct {
+	Id          string
 	Name        string
 	Variants    []*Variant
 	Description string
@@ -29,6 +30,7 @@ const (
 )
 
 type Variant struct {
+	Id                string
 	Name              string
 	Description       string
 	DataDirectoryPath string
@@ -60,9 +62,9 @@ func HasVariant(variant string, craters []*Crater) (bool, *Variant) {
 	return false, nil
 }
 
-func HasCrater(name string, craters []*Crater) bool {
+func HasCrater(id string, craters []*Crater) bool {
 	return slices.ContainsFunc(craters, func(crater *Crater) bool {
-		return crater.Name == name
+		return crater.Id == id
 	})
 }
 
