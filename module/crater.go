@@ -65,6 +65,7 @@ func HasVariant(variant string, craters []*Crater) (bool, *Variant) {
 
 func HasCrater(id string, craters []*Crater) bool {
 	return slices.ContainsFunc(craters, func(crater *Crater) bool {
+		fmt.Printf("Crater: %v %v\n", crater.Id, id)
 		return crater.Id == id
 	})
 }
