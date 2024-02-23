@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -95,8 +96,8 @@ type Module struct {
 	Craters          []*Crater
 }
 
-func (m *Module) HostApiUrl() string {
-	return net.JoinHostPort("http://localhost", strconv.Itoa(int(m.HostPort)))
+func (m *Module) HostApiUrl(endpoint string) string {
+	return fmt.Sprintf("%v/%v", net.JoinHostPort("http://127.0.0.1", strconv.Itoa(int(m.HostPort))), strings.TrimLeft(endpoint, "/"))
 }
 
 func (m *Module) RegisterCommand(cmd Command) {
