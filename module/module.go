@@ -6,7 +6,9 @@ import (
 	"github.com/filecoin-project/go-jsonrpc"
 	"github.com/labstack/echo/v4"
 	"github.com/stealthrocket/net/wasip1"
+	"net"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -91,6 +93,10 @@ type Module struct {
 	HandshakeHandler *HandshakeHandler
 	Echo             *echo.Echo
 	Craters          []*Crater
+}
+
+func (m *Module) HostApiUrl() string {
+	return net.JoinHostPort("http://localhost", strconv.Itoa(int(m.HostPort)))
 }
 
 func (m *Module) RegisterCommand(cmd Command) {
