@@ -3,6 +3,7 @@ package module
 import (
 	"context"
 	"fmt"
+	"github.com/Encedeus/module-daemon-go/config"
 	"github.com/filecoin-project/go-jsonrpc"
 	"github.com/labstack/echo/v4"
 	"github.com/stealthrocket/net/wasip1"
@@ -60,11 +61,12 @@ type HandshakeResponse struct {
 	RegisteredCraters []*Crater
 }
 
-func (h *HandshakeHandler) OnHandshake(config Configuration) HandshakeResponse {
+func (h *HandshakeHandler) OnHandshake(config Config) HandshakeResponse {
 	h.Module.Port = config.Port
 	h.Module.Manifest = config.Manifest
 	h.Module.HostPort = config.HostPort
 	h.Module.HandshakeHandler = h
+	h.Module.HostConfig = config.HostConfig
 
 	go func() {
 		h.Run(h.Module)
@@ -94,6 +96,7 @@ type Module struct {
 	HandshakeHandler *HandshakeHandler
 	Echo             *echo.Echo
 	Craters          []*Crater
+	HostConfig       config.Configuration
 }
 
 func (m *Module) HostApiUrl(endpoint string) string {
@@ -134,8 +137,9 @@ func (m *Module) Invoke(cmd string, args Arguments) (Result, error) {
 
 type Port uint16
 
-type Configuration struct {
-	Port     Port
-	HostPort Port
-	Manifest Manifest
+type Config struct {
+	Port       Port
+	HostPort   Port
+	Manifest   Manifest
+	HostConfig config.Configuration
 }

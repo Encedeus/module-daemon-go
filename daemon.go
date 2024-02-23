@@ -1,7 +1,6 @@
 package daemon
 
 import (
-	"crypto/rand"
 	"fmt"
 	"github.com/Encedeus/module-daemon-go/module"
 	"github.com/filecoin-project/go-jsonrpc"
@@ -13,13 +12,6 @@ import (
 	"strconv"
 	"time"
 )
-
-func RandomBytes(len uint) string {
-	b := make([]byte, len)
-	_, _ = rand.Read(b)
-
-	return string(b)
-}
 
 func InitModule(run module.RunFunction) {
 	rpcPort, _ := strconv.Atoi(os.Getenv("MODULE_RPC_PORT"))
