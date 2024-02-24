@@ -53,7 +53,7 @@ type CraterHandler struct {
 func HasVariant(variant string, craters []*Crater) (bool, *Variant) {
 	for _, c := range craters {
 		for _, v := range c.Variants {
-			if v.Id == variant {
+			if v.Id == variant || v.Name == variant {
 				return true, v
 			}
 		}
