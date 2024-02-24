@@ -78,8 +78,8 @@ func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest) (*pro
 		return nil, ErrUnsupportedCrater
 	}
 
-	supportsVariant, variant := HasVariant(opts.CraterVariant, *ch.RegisteredCraters)
-	if !supportsVariant {
+	_, variant := HasVariant(opts.CraterVariant, *ch.RegisteredCraters)
+	if variant == nil {
 		return nil, ErrUnsupportedVariant
 	}
 
