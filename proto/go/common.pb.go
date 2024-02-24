@@ -1710,7 +1710,7 @@ var file_common_proto_goTypes = []interface{}{
 	(*CraterVariant)(nil),          // 18: CraterVariant
 	(*UUID)(nil),                   // 19: UUID
 	(*timestamp.Timestamp)(nil),    // 20: google.protobuf.Timestamp
-	(*Port)(nil),                   // 21: AddPort
+	(*Port)(nil),                   // 21: Port
 }
 var file_common_proto_depIdxs = []int32{
 	19, // 0: User.id:type_name -> UUID
@@ -1733,15 +1733,15 @@ var file_common_proto_depIdxs = []int32{
 	4,  // 17: AccountAPIKeyToken.token:type_name -> Token
 	9,  // 18: Module.store:type_name -> ModuleStore
 	10, // 19: Module.manifest:type_name -> ModuleManifest
-	21, // 20: Module.backend_port:type_name -> AddPort
-	21, // 21: Module.rpc_port:type_name -> AddPort
+	21, // 20: Module.backend_port:type_name -> Port
+	21, // 21: Module.rpc_port:type_name -> Port
 	14, // 22: Module.frontend_server:type_name -> ModuleFrontendServer
-	21, // 23: ModuleStore.rpc_port:type_name -> AddPort
+	21, // 23: ModuleStore.rpc_port:type_name -> Port
 	11, // 24: ModuleManifest.frontend:type_name -> ModuleManifestFrontend
 	12, // 25: ModuleManifest.backend:type_name -> ModuleManifestBackend
 	13, // 26: ModuleManifestFrontend.platform:type_name -> ModulePlatform
 	13, // 27: ModuleFrontendServer.platform:type_name -> ModulePlatform
-	21, // 28: ModuleFrontendServer.port:type_name -> AddPort
+	21, // 28: ModuleFrontendServer.port:type_name -> Port
 	19, // 29: Node.id:type_name -> UUID
 	20, // 30: Node.created_at:type_name -> google.protobuf.Timestamp
 	20, // 31: Node.updated_at:type_name -> google.protobuf.Timestamp
@@ -1752,7 +1752,7 @@ var file_common_proto_depIdxs = []int32{
 	18, // 36: Server.variant:type_name -> CraterVariant
 	1,  // 37: Server.owner:type_name -> User
 	15, // 38: Server.node:type_name -> Node
-	21, // 39: Server.port:type_name -> AddPort
+	21, // 39: Server.port:type_name -> Port
 	18, // 40: Crater.variants:type_name -> CraterVariant
 	8,  // 41: Crater.provider:type_name -> Module
 	19, // 42: CraterVariant.name:type_name -> UUID

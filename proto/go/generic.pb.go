@@ -102,7 +102,7 @@ func (x *Port) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddPort.ProtoReflect.Descriptor instead.
+// Deprecated: Use Port.ProtoReflect.Descriptor instead.
 func (*Port) Descriptor() ([]byte, []int) {
 	return file_generic_proto_rawDescGZIP(), []int{1}
 }
@@ -200,7 +200,7 @@ func file_generic_proto_rawDescGZIP() []byte {
 var file_generic_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_generic_proto_goTypes = []interface{}{
 	(*UUID)(nil),         // 0: UUID
-	(*Port)(nil),         // 1: AddPort
+	(*Port)(nil),         // 1: Port
 	(*HttpResponse)(nil), // 2: HttpResponse
 }
 var file_generic_proto_depIdxs = []int32{
