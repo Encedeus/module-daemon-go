@@ -29,11 +29,11 @@ type Configuration struct {
 	config := Configuration{
 		Server: ServerConfiguration{
 			Host: "localhost",
-			Port: 8080,
+			AddPort: 8080,
 		},
 		DB: DatabaseConfiguration{
 			Host:     "localhost",
-			Port:     5432,
+			AddPort:     5432,
 			User:     "postgres",
 			DBName:   "PanelDB",
 			Password: "root",

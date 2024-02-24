@@ -501,13 +501,13 @@ var file_servers_api_proto_goTypes = []interface{}{
 	(*ServersDeleteRequest)(nil),   // 6: ServersDeleteRequest
 	(*ServersDeleteResponse)(nil),  // 7: ServersDeleteResponse
 	(*UUID)(nil),                   // 8: UUID
-	(*Port)(nil),                   // 9: Port
+	(*Port)(nil),                   // 9: AddPort
 	(*Server)(nil),                 // 10: Server
 }
 var file_servers_api_proto_depIdxs = []int32{
 	8,  // 0: ServersCreateRequest.owner:type_name -> UUID
 	8,  // 1: ServersCreateRequest.node:type_name -> UUID
-	9,  // 2: ServersCreateRequest.port:type_name -> Port
+	9,  // 2: ServersCreateRequest.port:type_name -> AddPort
 	10, // 3: ServersCreateResponse.servers:type_name -> Server
 	10, // 4: ServersFindAllResponse.servers:type_name -> Server
 	8,  // 5: ServersFindOneRequest.id:type_name -> UUID

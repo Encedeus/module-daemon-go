@@ -34,10 +34,10 @@ type Variant struct {
 	Name              string
 	Description       string
 	DataDirectoryPath string
-	GetConsoleLogs    func(c *Crater, m *Module, s *protoapi.Server) []byte
-	StartServer       func(c *Crater, m *Module, s *protoapi.Server) error
-	StopServer        func(c *Crater, m *Module, s *protoapi.Server) error
-	RestartServer     func(c *Crater, m *Module, s *protoapi.Server) error
+	//GetConsoleLogs    func(srv protoapi.Server) []byte
+	StartServer   func(srv protoapi.Server) error
+	StopServer    func(srv protoapi.Server) error
+	RestartServer func(srv protoapi.Server) error
 	//GetRunningState   func(c *Crater, m *Module, s *protoapi.Server) ServerRunningState
 	CreateServer func(opts *protoapi.ServersCreateRequest) (*protoapi.ServersCreateResponse, error)
 }
