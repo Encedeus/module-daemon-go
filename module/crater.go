@@ -2,7 +2,7 @@ package module
 
 import (
 	"errors"
-	protoapi "github.com/Encedeus/module-daemon-go/proto/go"
+	protoapi "github.com/Encedeus/module-daemon-go/proto"
 	"slices"
 )
 
