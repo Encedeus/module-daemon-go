@@ -97,8 +97,8 @@ func (ch *CraterHandler) StartServer(srv *protoapi.Server) error {
 		return ErrUnsupportedCrater
 	}
 
-	supportsVariant, variant := HasVariant(srv.Variant.Name, *ch.RegisteredCraters)
-	if !supportsVariant {
+	_, variant := HasVariant(srv.Variant.Name, *ch.RegisteredCraters)
+	if variant == nil {
 		return ErrUnsupportedVariant
 	}
 
