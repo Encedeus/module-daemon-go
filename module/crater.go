@@ -2,6 +2,7 @@ package module
 
 import (
 	"errors"
+	"fmt"
 	protoapi "github.com/Encedeus/module-daemon-go/proto"
 	"slices"
 )
@@ -53,6 +54,8 @@ type CraterHandler struct {
 func HasVariant(variant string, craters []*Crater) (bool, *Variant) {
 	for _, c := range craters {
 		for _, v := range c.Variants {
+			fmt.Printf("Variant: %v\n", variant)
+			//fmt.Printf("Variant: %v\n", variant)
 			if v.Id == variant || v.Name == variant {
 				return true, v
 			}
