@@ -84,5 +84,62 @@ func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest) (*pro
 		return nil, err
 	}
 
-	return resp, err
+	return resp, nil
+}
+
+func (ch *CraterHandler) StartServer(srv *protoapi.Server) error {
+	supportsCrater := HasCrater(srv.Crater.Name, *ch.RegisteredCraters)
+	if !supportsCrater {
+		return ErrUnsupportedCrater
+	}
+
+	supportsVariant, variant := HasVariant(srv.Variant.Name, *ch.RegisteredCraters)
+	if !supportsVariant {
+		return ErrUnsupportedVariant
+	}
+
+	err := variant.StartServer(srv)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ch *CraterHandler) RestartServer(srv *protoapi.Server) error {
+	supportsCrater := HasCrater(srv.Crater.Name, *ch.RegisteredCraters)
+	if !supportsCrater {
+		return ErrUnsupportedCrater
+	}
+
+	supportsVariant, variant := HasVariant(srv.Variant.Name, *ch.RegisteredCraters)
+	if !supportsVariant {
+		return ErrUnsupportedVariant
+	}
+
+	err := variant.RestartServer(srv)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ch *CraterHandler) StopServer(srv *protoapi.Server) error {
+	supportsCrater := HasCrater(srv.Crater.Name, *ch.RegisteredCraters)
+	if !supportsCrater {
+		return ErrUnsupportedCrater
+	}
+
+	supportsVariant, variant := HasVariant(srv.Variant.Name, *ch.RegisteredCraters)
+	if !supportsVariant {
+		return ErrUnsupportedVariant
+	}
+
+	err := variant.StopServer(srv)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
