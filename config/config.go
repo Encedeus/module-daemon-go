@@ -14,12 +14,13 @@ var (
 const DefaultLocation = "./"
 
 type Configuration struct {
-	Server  ServerConfiguration   `hcl:"server,block"`
-	DB      DatabaseConfiguration `hcl:"database,block"`
-	Auth    AuthConfiguration     `hcl:"auth,block"`
-	CDN     CDNConfiguration      `hcl:"cdn,block"`
-	Modules ModulesConfiguration  `hcl:"modules,block"`
-	Skyhook SkyhookConfiguration  `hcl:"skyhook,block"`
+	StorageLocationPath string                `hcl:"storage_location"`
+	Server              ServerConfiguration   `hcl:"server,block"`
+	DB                  DatabaseConfiguration `hcl:"database,block"`
+	Auth                AuthConfiguration     `hcl:"auth,block"`
+	CDN                 CDNConfiguration      `hcl:"cdn,block"`
+	Modules             ModulesConfiguration  `hcl:"modules,block"`
+	Skyhook             SkyhookConfiguration  `hcl:"skyhook,block"`
 }
 
 /*func NewConfiguration() Configuration {
