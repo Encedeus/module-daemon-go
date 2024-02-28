@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type NodeInfoClient interface {
 	GetNodeHardwareInfo(ctx context.Context, in *HardwareInfoRequest, opts ...grpc.CallOption) (*HardwareInfoResponse, error)
 	GetFreePort(ctx context.Context, in *GetFreePortRequest, opts ...grpc.CallOption) (*GetFreePortResponse, error)
+	CreateDirectory(ctx context.Context, in *CreateDirectoryRequest, opts ...grpc.CallOption) (*CreateDirectoryResponse, error)
 }
 
 type nodeInfoClient struct {
@@ -52,12 +53,22 @@ func (c *nodeInfoClient) GetFreePort(ctx context.Context, in *GetFreePortRequest
 	return out, nil
 }
 
+func (c *nodeInfoClient) CreateDirectory(ctx context.Context, in *CreateDirectoryRequest, opts ...grpc.CallOption) (*CreateDirectoryResponse, error) {
+	out := new(CreateDirectoryResponse)
+	err := c.cc.Invoke(ctx, "/NodeInfo/CreateDirectory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NodeInfoServer is the server API for NodeInfo service.
 // All implementations must embed UnimplementedNodeInfoServer
 // for forward compatibility
 type NodeInfoServer interface {
 	GetNodeHardwareInfo(context.Context, *HardwareInfoRequest) (*HardwareInfoResponse, error)
 	GetFreePort(context.Context, *GetFreePortRequest) (*GetFreePortResponse, error)
+	CreateDirectory(context.Context, *CreateDirectoryRequest) (*CreateDirectoryResponse, error)
 	mustEmbedUnimplementedNodeInfoServer()
 }
 
@@ -70,6 +81,9 @@ func (UnimplementedNodeInfoServer) GetNodeHardwareInfo(context.Context, *Hardwar
 }
 func (UnimplementedNodeInfoServer) GetFreePort(context.Context, *GetFreePortRequest) (*GetFreePortResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFreePort not implemented")
+}
+func (UnimplementedNodeInfoServer) CreateDirectory(context.Context, *CreateDirectoryRequest) (*CreateDirectoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDirectory not implemented")
 }
 func (UnimplementedNodeInfoServer) mustEmbedUnimplementedNodeInfoServer() {}
 
@@ -120,6 +134,24 @@ func _NodeInfo_GetFreePort_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NodeInfo_CreateDirectory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateDirectoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeInfoServer).CreateDirectory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/NodeInfo/CreateDirectory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeInfoServer).CreateDirectory(ctx, req.(*CreateDirectoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NodeInfo_ServiceDesc is the grpc.ServiceDesc for NodeInfo service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +166,10 @@ var NodeInfo_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFreePort",
 			Handler:    _NodeInfo_GetFreePort_Handler,
+		},
+		{
+			MethodName: "CreateDirectory",
+			Handler:    _NodeInfo_CreateDirectory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
