@@ -121,6 +121,7 @@ type CDNConfiguration struct {
 }
 
 type SkyhookConfiguration struct {
+	StorageLocationPath string `hcl:"storage_location"`
 	DefaultPort         uint16 `hcl:"default_port"`
 	MinFreeRAM          uint64 `hcl:"min_free_ram"`
 	MinFreeDisk         uint64 `hcl:"min_free_disk"`
