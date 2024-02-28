@@ -2,7 +2,6 @@ package module
 
 import (
 	"errors"
-	"fmt"
 	protoapi "github.com/Encedeus/module-daemon-go/proto"
 	"io"
 	"slices"
@@ -41,7 +40,7 @@ type Variant struct {
 	StopServer    func(srv *protoapi.Server) error
 	RestartServer func(srv *protoapi.Server) error
 	//GetRunningState   func(c *Crater, m *Module, s *protoapi.Server) ServerRunningState
-	CreateServer func(opts *protoapi.ServersCreateRequest) (*protoapi.ServersCreateResponse, error)
+	CreateServer func(opts *protoapi.ServersCreateRequest, id string) (*protoapi.ServersCreateResponse, error)
 }
 
 func (m *Module) RegisterCrater(c Crater) {
@@ -55,9 +54,6 @@ type CraterHandler struct {
 func HasVariant(variant string, craters []*Crater) (bool, *Variant) {
 	for _, c := range craters {
 		for _, v := range c.Variants {
-			fmt.Printf("Variant name: %v\n", variant)
-			fmt.Printf("Variant: %+v\n", v)
-			//fmt.Printf("Variant: %v\n", variant)
 			if v.Id == variant || v.Name == variant {
 				return true, v
 			}
@@ -73,7 +69,7 @@ func HasCrater(id string, craters []*Crater) bool {
 	})
 }
 
-func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest) (*protoapi.ServersCreateResponse, error) {
+func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest, id string) (*protoapi.ServersCreateResponse, error) {
 	supportsCrater := HasCrater(opts.Crater, *ch.RegisteredCraters)
 	if !supportsCrater {
 		return nil, ErrUnsupportedCrater
@@ -84,7 +80,7 @@ func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest) (*pro
 		return nil, ErrUnsupportedVariant
 	}
 
-	resp, err := variant.CreateServer(opts)
+	resp, err := variant.CreateServer(opts, id)
 	if err != nil && !errors.Is(err, io.EOF) {
 		return nil, err
 	}

@@ -44,8 +44,8 @@ func InitRPCServer(rpcPort, mainPort module.Port, mod *module.Module, run module
 	rpcServer := jsonrpc.NewServer()
 
 	handshakeHandler := new(module.HandshakeHandler)
-	handshakeHandler.RPCPort = module.Port(rpcPort)
-	handshakeHandler.MainPort = module.Port(mainPort)
+	handshakeHandler.RPCPort = rpcPort
+	handshakeHandler.MainPort = mainPort
 	handshakeHandler.Module = mod
 	handshakeHandler.Run = run
 
