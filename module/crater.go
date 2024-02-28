@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	protoapi "github.com/Encedeus/module-daemon-go/proto"
+	"io"
 	"slices"
 )
 
@@ -84,7 +85,7 @@ func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest) (*pro
 	}
 
 	resp, err := variant.CreateServer(opts)
-	if err != nil {
+	if err != nil && !errors.Is(err, io.EOF) {
 		return nil, err
 	}
 
@@ -103,7 +104,7 @@ func (ch *CraterHandler) StartServer(srv *protoapi.Server) error {
 	}
 
 	err := variant.StartServer(srv)
-	if err != nil {
+	if err != nil && !errors.Is(err, io.EOF) {
 		return err
 	}
 
@@ -122,7 +123,7 @@ func (ch *CraterHandler) RestartServer(srv *protoapi.Server) error {
 	}
 
 	err := variant.RestartServer(srv)
-	if err != nil {
+	if err != nil && !errors.Is(err, io.EOF) {
 		return err
 	}
 
@@ -141,7 +142,7 @@ func (ch *CraterHandler) StopServer(srv *protoapi.Server) error {
 	}
 
 	err := variant.StopServer(srv)
-	if err != nil {
+	if err != nil && !errors.Is(err, io.EOF) {
 		return err
 	}
 
