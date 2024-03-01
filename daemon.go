@@ -71,6 +71,7 @@ func InitRPCServer(rpcPort, mainPort module.Port, mod *module.Module, run module
 		Addr:         fmt.Sprintf(":%v", rpcPort),
 	}
 
+	fmt.Println("Starting")
 	if err = server.Serve(rpcListener); err != nil {
 		log.Fatalf("Failed starting RPC server: %v", err)
 	}
