@@ -2,6 +2,7 @@ package module
 
 import (
 	"errors"
+	"fmt"
 	protoapi "github.com/Encedeus/module-daemon-go/proto"
 	"io"
 	"slices"
@@ -70,6 +71,7 @@ func HasCrater(id string, craters []*Crater) bool {
 }
 
 func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest, id string) (*protoapi.ServersCreateResponse, error) {
+	fmt.Printf("Craters: %+v\n", *ch.RegisteredCraters)
 	supportsCrater := HasCrater(opts.Crater, *ch.RegisteredCraters)
 	if !supportsCrater {
 		return nil, ErrUnsupportedCrater
