@@ -91,6 +91,7 @@ func (ch *CraterHandler) CreateServer(opts *protoapi.ServersCreateRequest, id st
 }
 
 func (ch *CraterHandler) StartServer(srv *protoapi.Server) error {
+	fmt.Printf("Craters: %+v\n", *ch.RegisteredCraters)
 	supportsCrater := HasCrater(srv.Crater.Name, *ch.RegisteredCraters)
 	if !supportsCrater {
 		return ErrUnsupportedCrater
